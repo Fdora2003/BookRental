@@ -17,6 +17,13 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(long id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     public long getId() {
         return id;
     }
@@ -47,5 +54,16 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("UserEntity{");
+        sb.append("id=").append(id);
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

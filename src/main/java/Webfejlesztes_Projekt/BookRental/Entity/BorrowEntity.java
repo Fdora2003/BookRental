@@ -21,7 +21,7 @@ public class BorrowEntity {
     }
 
     public BorrowEntity() {
-        
+
     }
 
     public long getId() {

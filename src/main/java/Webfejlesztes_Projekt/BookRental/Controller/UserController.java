@@ -24,9 +24,9 @@ public class UserController {
     public List<UserEntity> getAllUsers(){
         return userService.getAllUser();
     }
-    @GetMapping("/csrf-token")
+    /*@GetMapping("/csrf-token")
     public CsrfToken getCsrfToken(HttpServletRequest request){
         return (CsrfToken) request.getAttribute("_csrf");
-    }
+    }*/
 
 }

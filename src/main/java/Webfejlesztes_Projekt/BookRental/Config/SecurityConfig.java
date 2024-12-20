@@ -3,9 +3,11 @@ package Webfejlesztes_Projekt.BookRental.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -40,8 +42,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF védelem tiltása
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2/**").permitAll() // Engedélyezi a H2 konzolt
-                        .anyRequest().permitAll() // Minden más autentikációt igényel
+                        .requestMatchers("/h2/**", "register", "login").permitAll() // Engedélyezi a H2 konzolt
+                        .anyRequest().authenticated() // Minden más autentikációt igényel
                 )
                 .httpBasic(Customizer.withDefaults()) // HTTP Basic Auth
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,12 +63,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(){
-        UserDetails user = User.builder()
-                .username("admin")
-                .password("admin")
-                .roles("ADMIN") // Szerepkör
-                .build();
-        return new InMemoryUserDetailsManager(user);
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 }

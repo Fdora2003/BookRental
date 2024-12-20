@@ -44,5 +44,10 @@ public class UserController {
         return authenticationService.register(user);
     }
 
+    @PostMapping("/login")
+    public String login(@RequestBody UserEntity user){
+        return authenticationService.verify(user);
+    }
+
 
 }

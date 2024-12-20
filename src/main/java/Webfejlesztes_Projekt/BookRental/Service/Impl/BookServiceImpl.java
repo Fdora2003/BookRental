@@ -51,4 +51,16 @@ public class BookServiceImpl implements BookService {
         public List<BookEntity> getAllBooks () {
             return bookRepository.findAll();
         }
+
+    @Override
+    public Optional<BookEntity> findByTitle(String title) {
+        return bookRepository.findByTitle(title);
     }
+
+    @Override
+    public Optional<BookEntity> findById(Long bookId) {
+        return bookRepository.findById(bookId);
+    }
+
+}
+

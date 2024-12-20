@@ -1,4 +1,4 @@
-package Webfejlesztes_Projekt.BookRental.Config;
+package Webfejlesztes_Projekt.BookRental.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,12 +1,13 @@
-package Webfejlesztes_Projekt.BookRental.Service;
+package Webfejlesztes_Projekt.BookRental.Service.Impl;
 
 import Webfejlesztes_Projekt.BookRental.Entity.BorrowEntity;
 import Webfejlesztes_Projekt.BookRental.Repository.BorrowRepository;
+import Webfejlesztes_Projekt.BookRental.Service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BorrowServiceImpl implements BorrowService{
+public class BorrowServiceImpl implements BorrowService {
     @Autowired
     BorrowRepository borrowRepository;
 

@@ -26,7 +26,7 @@ public class BorrowController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/borrow/{bookId}")
+    @PostMapping("/rent")
     public ResponseEntity<String> borrowBook(@PathVariable Long bookId, Principal principal) {
         // Lekérdezzük a bejelentkezett felhasználót
         UserEntity user = userService.findByUsername(principal.getName());

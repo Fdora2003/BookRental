@@ -13,9 +13,10 @@ import java.util.Optional;
 public class BorrowServiceImpl implements BorrowService {
     @Autowired
     BorrowRepository repository;
+
     @Override
     public Optional<BorrowEntity> findByBookAndUser(BookEntity book, UserEntity user) {
-        return repository.findByBookIdAndUserId(book, user);
+        return repository.findByBook_IdAndUser_Id(book.getId(), user.getId());
     }
 
     @Override
@@ -23,5 +24,8 @@ public class BorrowServiceImpl implements BorrowService {
         repository.save(borrowed);
     }
 
-
+    @Override
+    public void delete(BorrowEntity borrowEntity) {
+        delete(borrowEntity);
+    }
 }

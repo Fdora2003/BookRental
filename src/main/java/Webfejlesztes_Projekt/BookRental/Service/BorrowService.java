@@ -13,4 +13,5 @@ public interface BorrowService {
     void save(BorrowEntity borrowed);
 
 
+    void delete(BorrowEntity borrowEntity);
 }

@@ -60,4 +60,42 @@ public class BorrowController {
         return ResponseEntity.ok("A könyv sikeresen kölcsönözve.");
     }
 
+    @DeleteMapping("/return/{bookId}")
+    public ResponseEntity<String> returnBook(@PathVariable Long bookId, Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bejelentkezés szükséges.");
+        }
+
+        // Felhasználó lekérdezése
+        Optional<UserEntity> userEntity = Optional.ofNullable(userService.findByUsername(principal.getName()));
+        if (userEntity.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Felhasználó nem található.");
+        }
+
+        UserEntity user = userEntity.get();
+
+        // Könyv lekérdezése
+        Optional<BookEntity> bookEntity = bookService.findById(bookId);
+        if (bookEntity.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Könyv nem található.");
+        }
+
+        BookEntity book = bookEntity.get();
+
+        // Kölcsönzési kapcsolat ellenőrzése
+        Optional<BorrowEntity> borrowEntity = borrowService.findByBookAndUser(book, user);
+        if (borrowEntity.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("A könyv nincs kölcsönözve a felhasználó által.");
+        }
+
+        // Kapcsolat törlése
+        borrowService.delete(borrowEntity.get());
+
+        // Könyv visszaállítása
+        book.setAvailable(true);
+        bookService.saveBook(book);
+
+        return ResponseEntity.ok("Könyv sikeresen visszaadva.");
+    }
+
 }

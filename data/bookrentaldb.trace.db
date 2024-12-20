@@ -104,3 +104,6 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 100 more
+2024-12-20 14:53:08.859203+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM BOOK BORROW [*]USERS"; SQL statement:
+SELECT * FROM BOOK BORROW USERS [42000-232]

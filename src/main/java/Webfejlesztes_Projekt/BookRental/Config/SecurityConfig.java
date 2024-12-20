@@ -34,16 +34,7 @@ public class SecurityConfig {
 
     @Autowired
     private JwtFilter jwtFilter;
-   /*@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(custumizer->custumizer.disable());
-        http.authorizeHttpRequests(request->request.anyRequest().authenticated());
-        //http.formLogin(Customizer.withDefaults());
-        http.httpBasic(Customizer.withDefaults());
-        http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        return http.build();
-    }*/
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http

@@ -32,7 +32,6 @@ public class UserController {
     }
     //entity rendelkezik ID-val, akkor update, amúgy save
 
-
     @GetMapping("/getAll")
     public List<UserEntity> getAllUsers(){
         return userService.getAllUser();
@@ -48,6 +47,5 @@ public class UserController {
     public String login(@RequestBody UserEntity user){
         return authenticationService.verify(user);
     }
-
 
 }

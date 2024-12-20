@@ -17,10 +17,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JWTService {
+public class JwtService {
     private String secretKey = "";
 
-    public JWTService() throws NoSuchAlgorithmException {
+    public JwtService() throws NoSuchAlgorithmException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
         SecretKey sk = keyGenerator.generateKey();
         secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());

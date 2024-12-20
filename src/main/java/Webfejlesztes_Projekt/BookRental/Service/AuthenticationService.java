@@ -1,6 +1,6 @@
 package Webfejlesztes_Projekt.BookRental.Service;
 
-import Webfejlesztes_Projekt.BookRental.Config.JWTService;
+import Webfejlesztes_Projekt.BookRental.Config.JwtService;
 import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import Webfejlesztes_Projekt.BookRental.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class AuthenticationService {
     AuthenticationManager manager;
 
     @Autowired
-    JWTService jwtService;
+    JwtService jwtService;
 
     private BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
     public UserEntity register(UserEntity user){

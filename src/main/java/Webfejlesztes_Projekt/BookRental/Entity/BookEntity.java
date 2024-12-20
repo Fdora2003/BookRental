@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigInteger;
 
 @Entity
+@Table(name = "book")
 public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

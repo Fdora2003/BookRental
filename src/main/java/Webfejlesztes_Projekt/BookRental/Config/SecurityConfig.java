@@ -13,7 +13,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -23,7 +25,7 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
-    @Bean
+   /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(custumizer->custumizer.disable());
         http.authorizeHttpRequests(request->request.anyRequest().authenticated());
@@ -32,20 +34,39 @@ public class SecurityConfig {
         http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
+    }*/
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable()) // CSRF védelem tiltása
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/h2/**").permitAll() // Engedélyezi a H2 konzolt
+                        .anyRequest().permitAll() // Minden más autentikációt igényel
+                )
+                .httpBasic(Customizer.withDefaults()) // HTTP Basic Auth
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.disable()) // Az új megközelítés frameOptions-hoz
+                );
+
+        return http.build();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-        provider.setUserDetailsService(userDetailsService());
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
+        provider.setUserDetailsService(userDetailsService);
         return provider;
     }
+
     @Bean
     public UserDetailsService userDetailsService(){
-
-
-
-        return new InMemoryUserDetailsManager();
+        UserDetails user = User.builder()
+                .username("admin")
+                .password("admin")
+                .roles("ADMIN") // Szerepkör
+                .build();
+        return new InMemoryUserDetailsManager(user);
     }
 }

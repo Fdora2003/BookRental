@@ -3,6 +3,7 @@ package Webfejlesztes_Projekt.BookRental.Entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "USERS")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

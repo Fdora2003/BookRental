@@ -25,15 +25,14 @@ const Login: React.FC = () => {
             if (!response.ok) {
               throw new Error('Login failed');
             }
-            const token = await response.text(); // A Backend elvileg plain text-ként küldi a JWT-t
-            console.log('Token received:', token);
-            localStorage.setItem('token', token); // Tároljuk a tokent a böngészőben.
-            navigate('/protected');
-          } catch (err: any) {
-            console.error('Login error:', err.message);
-            setError('Invalid username or password. Please try again.');
-          }
-        };
+            const token = await response.text();
+            localStorage.setItem("token", token);
+            navigate("/rent");
+        } catch (err: any) {
+            console.error("Login error:", err.message);
+            setError("Invalid username or password. Please try again.");
+        }
+    };
 
     return(
         <div className="flex justify-center items-center h-screen w-screen bg-zinc-850 fixed top-0 left-0">

@@ -3,25 +3,34 @@ package Webfejlesztes_Projekt.BookRental.Controller;
 import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import Webfejlesztes_Projekt.BookRental.Repository.UserRepository;
 import Webfejlesztes_Projekt.BookRental.Service.AuthenticationService;
+import Webfejlesztes_Projekt.BookRental.Service.JwtService;
 import Webfejlesztes_Projekt.BookRental.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import java.util.*;
 
 @RestController
 public class UserController {
-
+    private final UserService userService;
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     private AuthenticationService authenticationService;
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    JwtService jwtService;
 
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -31,10 +40,6 @@ public class UserController {
     }
     //entity rendelkezik ID-val, akkor update, amúgy save
 
-    @GetMapping("/getAll")
-    public List<UserEntity> getAllUsers(){
-        return userService.getAllUser();
-    }
 
     @PostMapping("/register")
     public UserEntity register(@RequestBody UserEntity user){
@@ -45,6 +50,12 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestBody UserEntity user){
         return authenticationService.verify(user);
+    }
+
+
+    @GetMapping("/users")
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 
 }

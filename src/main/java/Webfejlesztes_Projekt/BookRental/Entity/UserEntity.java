@@ -2,6 +2,8 @@ package Webfejlesztes_Projekt.BookRental.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "USERS")
 public class UserEntity {
@@ -15,14 +17,26 @@ public class UserEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "role")
+    private String role;
+
     public UserEntity() {
     }
 
-    public UserEntity(long id, String username, String password, String email) {
+    public UserEntity(long id, String username, String password, String email, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public long getId() {
@@ -55,6 +69,19 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity user = (UserEntity) o;
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, email, role);
     }
 
     @Override

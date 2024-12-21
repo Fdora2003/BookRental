@@ -6,13 +6,13 @@ import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import Webfejlesztes_Projekt.BookRental.Service.BookService;
 import Webfejlesztes_Projekt.BookRental.Service.BorrowService;
 import Webfejlesztes_Projekt.BookRental.Service.UserService;
-import Webfejlesztes_Projekt.BookRental.Service.dto.BorrowDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,7 +34,6 @@ public class BorrowController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Felhasználó nem található.");
         }
 
-        // Lekérdezzük a könyvet az ID alapján
         Optional<BookEntity> bookOptional = bookService.findById(bookId);
         if (bookOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("A könyv nem található.");
@@ -42,16 +41,13 @@ public class BorrowController {
 
         BookEntity book = bookOptional.get();
 
-        // Ellenőrizzük, hogy a könyv elérhető-e
         if (!book.isAvailable()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A könyv jelenleg nem elérhető.");
         }
 
-        // Könyv elérhetőség állítása false-ra
         book.setAvailable(false);
         bookService.saveBook(book);
 
-        // Kölcsönzés mentése
         BorrowEntity borrow = new BorrowEntity();
         borrow.setBook(book);
         borrow.setUser(user);
@@ -60,7 +56,7 @@ public class BorrowController {
         return ResponseEntity.ok("A könyv sikeresen kölcsönözve.");
     }
 
-    @DeleteMapping("/return/{bookId}")
+    /*@DeleteMapping("/return/{bookId}")
     public ResponseEntity<String> returnBook(@PathVariable Long bookId, Principal principal) {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bejelentkezés szükséges.");
@@ -96,6 +92,6 @@ public class BorrowController {
         bookService.saveBook(book);
 
         return ResponseEntity.ok("Könyv sikeresen visszaadva.");
-    }
+    }*/
 
 }

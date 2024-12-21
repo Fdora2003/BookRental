@@ -8,19 +8,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/book")
 public class BookController {
     @Autowired
-    private BookService service;
+    BookService bookService;
 
     @Autowired
-    private BookRepository repository;
+    BookRepository repository;
 
     // 1. Könyvek hozzáadása (Add a book)
     @PostMapping("/add")
     public ResponseEntity<BookEntity> addBook(@RequestBody BookEntity book) {
-        BookEntity savedBook = service.addBook(book);
+        BookEntity savedBook = bookService.addBook(book);
         return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
     }
 
@@ -28,7 +30,7 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable long id) {
         try {
-            service.deleteBook(id);
+            bookService.deleteBook(id);
             return new ResponseEntity<>("Könyv sikeresen törölve!", HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -41,10 +43,15 @@ public class BookController {
     public ResponseEntity<String> updateBook(@PathVariable long id, @RequestBody BookEntity updatedBook) {
         try {
             // A könyvet frissítjük az id alapján
-            BookEntity book = service.updateBook(id, updatedBook);
+            BookEntity book = bookService.updateBook(id, updatedBook);
             return new ResponseEntity<>("Könyv sikeresen módosítva!", HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/available")
+    public List<BookEntity> getAvailableBooks() {
+        return bookService.getAvailableBooks();
     }
 }

@@ -1,10 +1,11 @@
 package Webfejlesztes_Projekt.BookRental.Service;
 
 import Webfejlesztes_Projekt.BookRental.Entity.BookEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public interface BookService {
     BookEntity saveBook(BookEntity book);
     BookEntity addBook(BookEntity book);
@@ -16,4 +17,6 @@ public interface BookService {
 
 
     Optional<BookEntity> findById(Long bookId);
+
+    List<BookEntity> getAvailableBooks();
 }

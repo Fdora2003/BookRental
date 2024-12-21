@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserList from "./components/UserList";
+import BookList from "./components/BookList";
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/users" element={<UserList />} />
+              <Route path="/books" element={<BookList />} />
           </Routes>
       </Router>
   );

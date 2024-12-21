@@ -13,7 +13,7 @@ USER:
 
 2-es szint: 1 adatbázistábla, amelynek adatai egy webes felületen látszanak (read művelet)✅
 
-3-mas szint: 1 adatbázistábla, amelynek adatai egy webes felületen olvashatók, létrehozhatók, módosíthatók, törölhetők. (CRUD)
+3-mas szint: 1 adatbázistábla, amelynek adatai egy webes felületen olvashatók, létrehozhatók, módosíthatók, törölhetők. (CRUD)✅
 
 4-es szint: Spring security, JEE security, vagy az általatok kiválasztott keretrendszer security megoldása, jogosultság alapú
 hozzáféréskezelés, bejelentkezés.

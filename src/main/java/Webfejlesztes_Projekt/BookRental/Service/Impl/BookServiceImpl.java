@@ -19,44 +19,6 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-
-    @Override
-    public BookEntity addBook(BookEntity book) {
-        return bookRepository.save(book);
-    }
-
-    @Override
-    public BookEntity updateBook(long id, BookEntity updatedBook) {
-        Optional<BookEntity> existingBookOpt = bookRepository.findById(id);
-        if (existingBookOpt.isPresent()) {
-            BookEntity existingBook = existingBookOpt.get();
-            // Frissítjük a könyv adatokat
-            existingBook.setTitle(updatedBook.getTitle());
-            existingBook.setAuthor(updatedBook.getAuthor());
-            existingBook.setGenre(updatedBook.getGenre());
-            existingBook.setIsbn(updatedBook.getIsbn());
-            // Mentés (frissítés)
-            return bookRepository.save(existingBook);
-        } else {
-            throw new RuntimeException("A könyv nem található.");
-        }
-    }
-
-    @Override
-    public void deleteBook(long id) {
-        bookRepository.deleteById(id);
-    }
-
-    @Override
-        public List<BookEntity> getAllBooks () {
-            return bookRepository.findAll();
-        }
-
-    @Override
-    public Optional<BookEntity> findByTitle(String title) {
-        return bookRepository.findByTitle(title);
-    }
-
     @Override
     public Optional<BookEntity> findById(Long bookId) {
         return bookRepository.findById(bookId);
@@ -65,6 +27,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookEntity> getAvailableBooks() {
         return bookRepository.findByAvailableTrue();
+    }
+
+    @Override
+    public List<BookEntity> getAllBooks() {
+        return bookRepository.findAll();
     }
 
 }

@@ -1,10 +1,10 @@
 ADMIN:
--könyvek hozzáadása
--könyvek módosítása
--könyvek törlése
+-könyvek hozzáadása✅
+-könyvek módosítása✅
+-könyvek törlése✅
 
--userek jogainak megváltoztatása
--userek törlése
+-userek jogainak megváltoztatása✅
+-userek törlése✅
 
 USER:
 (ezeket az admin is tudja)
@@ -15,8 +15,10 @@ USER:
 
 3-mas szint: 1 adatbázistábla, amelynek adatai egy webes felületen olvashatók, létrehozhatók, módosíthatók, törölhetők. (CRUD)✅
 
-4-es szint: Spring security, JEE security, vagy az általatok kiválasztott keretrendszer security megoldása, jogosultság alapú
-hozzáféréskezelés, bejelentkezés.
+4-es szint:
+Spring security, JEE security, vagy az általatok kiválasztott keretrendszer security megoldása, ✅
+jogosultság alapú hozzáféréskezelés,
+bejelentkezés.✅
 
 5-ös szint: Több tábla kapcsolatára értelmezett CRUD, vagy a extra munka a Frontenden (több css, órán nem tanult technológia
 használata), vagy extra munka a Backenden (több táblakapcsolat kezelése, validáció, JWT helyett más megoldás használata)

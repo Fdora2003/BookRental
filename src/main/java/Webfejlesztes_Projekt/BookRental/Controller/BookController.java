@@ -3,10 +3,13 @@ package Webfejlesztes_Projekt.BookRental.Controller;
 import Webfejlesztes_Projekt.BookRental.Entity.BookEntity;
 import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import Webfejlesztes_Projekt.BookRental.Repository.BookRepository;
+import Webfejlesztes_Projekt.BookRental.Repository.UserRepository;
 import Webfejlesztes_Projekt.BookRental.Service.BookService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +22,11 @@ public class BookController {
 
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> createBook(@RequestBody BookEntity book) {
         if (book.getTitle() == null || book.getTitle().isEmpty() ||
                 book.getAuthor() == null || book.getAuthor().isEmpty() ||
@@ -36,7 +42,17 @@ public class BookController {
                     .body("Failed to add book.");
         }
     }
+    @GetMapping("/getrole")
+    public ResponseEntity<String> getUserRole(Authentication authentication) {
+        // Az aktuális bejelentkezett felhasználó role-ját lekérjük
+        UserEntity user = userRepository.findByUsername(authentication.name());
+        if (user != null && user.getRole() != null) {
+            return ResponseEntity.ok(user.getRole()); // Role visszaküldése
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Role not found");
+    }
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody BookEntity updateBook) {
         return bookRepository.findById(id).map(book -> {
             book.setTitle(updateBook.getTitle());
@@ -50,6 +66,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
 
         return bookRepository.findById(id).map(book -> {

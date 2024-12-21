@@ -1,36 +1,35 @@
-// @ts-ignore
 import React, { useState, useEffect } from "react";
-
+import Navbar from "./Navbar";
 interface Book {
     id: number;
     title: string;
     author: string;
     isbn: string;
-    genre:string;
+    genre: string;
     available: boolean;
 }
 
 const BookList: React.FC = () => {
     const [books, setBooks] = useState<Book[]>([]);
+    const [userRole, setUserRole] = useState<string | null>(null);
     const [bookFormData, setBookFormData] = useState({
         title: "",
         author: "",
         isbn: "",
-        genre:"",
+        genre: "",
         available: true, // Alapértelmezett érték
     });
     const [bookMessage, setBookMessage] = useState<string | null>(null);
     const [editBookId, setEditBookId] = useState<number | null>(null);
     const [editedBook, setEditedBook] = useState<Book | null>(null);
 
+
     // Fetch books
-    // @ts-ignore
     const fetchBooks = async () => {
         try {
             const token = localStorage.getItem("token");
             if (!token) {
-                setBookMessage("Unauthorized. Please log in again.");
-                return;
+                return ("/login");
             }
 
             const response = await fetch("http://localhost:8080/books", {
@@ -64,7 +63,6 @@ const BookList: React.FC = () => {
     };
 
     // Handle adding a new book
-    // @ts-ignore
     const handleAddBook = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -87,6 +85,7 @@ const BookList: React.FC = () => {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(bookFormData),
+
             });
 
             if (response.ok) {
@@ -101,6 +100,9 @@ const BookList: React.FC = () => {
             console.error(error);
             setBookMessage("Failed to add book. Please try again later.");
         }
+        if (userRole !== 'admin') {
+            return <p>Access denied. Admin role required to add books.</p>;
+        }
     };
 
     // Handle edit mode
@@ -112,9 +114,16 @@ const BookList: React.FC = () => {
     // Handle editing
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, field: keyof Book) => {
         if (editedBook) {
+            let value = e.target.value;
+
+            // Ha az "available" mezőt módosítják, akkor konvertáljuk boolean típusra
+            if (field === 'available') {
+                value = value === 'true';  // 'true' vagy 'false' sztringek konvertálása boolean értékre
+            }
+
             setEditedBook({
                 ...editedBook,
-                [field]: e.target.value,
+                [field]: value,
             });
         }
     };
@@ -124,7 +133,6 @@ const BookList: React.FC = () => {
         setEditedBook(null);
     };
 
-    // @ts-ignore
     const handleSaveEdit = async () => {
         if (editedBook) {
             try {
@@ -161,8 +169,6 @@ const BookList: React.FC = () => {
         }
     };
 
-    // Handle deleting a book
-    // @ts-ignore
     const handleDeleteBook = async (bookId: number) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this book?");
         if (!confirmDelete) return;
@@ -196,6 +202,7 @@ const BookList: React.FC = () => {
 
     return (
         <div className="p-6 bg-[#d6efd8] min-h-screen">
+            <Navbar />
             {bookMessage && <p className="mt-4 text-center text-[#000] font-semibold">{bookMessage}</p>}
 
             <form onSubmit={handleAddBook} className="space-y-4">
@@ -233,7 +240,7 @@ const BookList: React.FC = () => {
                 />
                 <select
                     name="available"
-                    value={bookFormData.available ? "true" : "false"}
+                    value={bookFormData.available ? "true" : "false"} // boolean érték konvertálása string-gé
                     onChange={handleBookChange}
                     className="p-2 border rounded w-full"
                 >
@@ -250,7 +257,7 @@ const BookList: React.FC = () => {
                     <th>Author</th>
                     <th>ISBN</th>
                     <th>Available</th>
-                    <th>Genre</th> {/* Új oszlop a műfajhoz */}
+                    <th>Genre</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -285,7 +292,7 @@ const BookList: React.FC = () => {
                                 </td>
                                 <td>
                                     <select
-                                        value={editedBook?.available ? "true" : "false"}
+                                        value={editedBook?.available ? "true" : "false"} // boolean érték konvertálása string-gé
                                         onChange={(e) => handleInputChange(e, "available")}
                                         className="p-1 border rounded"
                                     >
@@ -323,7 +330,6 @@ const BookList: React.FC = () => {
                 ))}
                 </tbody>
             </table>
-
         </div>
     );
 };

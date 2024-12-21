@@ -1,6 +1,6 @@
 // @ts-ignore
 import React, { useState, useEffect } from "react";
-
+import Navbar from "./Navbar";
 interface User {
     id: number;
     username: string;
@@ -195,6 +195,7 @@ const UserList: React.FC = () => {
 
     return (
         <div className="p-6 bg-[#d6efd8] min-h-screen">
+            <Navbar />
             {userMessage && <p className="mt-4 text-center text-[#000] font-semibold">{userMessage}</p>}
 
             <form onSubmit={handleAddUser} className="space-y-4">

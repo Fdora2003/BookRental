@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/rent")
 public class BorrowController {
     @Autowired
     private BorrowService borrowService;
@@ -26,7 +27,7 @@ public class BorrowController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/rent")
+    @PostMapping("/{id}")
     public ResponseEntity<String> borrowBook(@PathVariable Long bookId, Principal principal) {
         // Lekérdezzük a bejelentkezett felhasználót
         UserEntity user = userService.findByUsername(principal.getName());

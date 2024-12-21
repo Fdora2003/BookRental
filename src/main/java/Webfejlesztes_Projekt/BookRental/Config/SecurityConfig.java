@@ -53,7 +53,7 @@ public class SecurityConfig {
                     }
                 })) // Egyedi CORS konfiguráció
                 .csrf(csrf -> csrf.disable()) // CSRF letiltása
-                .authorizeHttpRequests(request -> request.requestMatchers("/login","/register","/h2/**").permitAll() // A /auth/** végpontok elérhetőek mindenki számára
+                .authorizeHttpRequests(request -> request.requestMatchers("/login","/register","/h2/**").permitAll()
                         .anyRequest().authenticated()) // Minden más kérés bejelentkezést igényel
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(customAuthenticationProvider())

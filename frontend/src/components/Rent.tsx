@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+
 interface Book {
     id: number;
     title: string;
@@ -17,10 +18,9 @@ const Rent = () => {
     const [response, setResponse] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
-
     const [registeredBooks, setRegisteredBooks] = useState<Book[]>([]);
 
-    // @ts-ignore
+    // Könyv kölcsönzése
     const handleBorrow = async () => {
         setResponse("");
         setError("");
@@ -29,44 +29,50 @@ const Rent = () => {
             setError("Kérlek, add meg a könyv címét!");
             return;
         }
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token"); // Kiszedjük a Local Storage-ből a JWT-t
 
         if (!token) {
-            navigate("/login");
+            navigate("/login"); // Ha nincs token, irányítsuk a login oldalra
             return;
         }
 
         try {
             const res = await fetch("http://localhost:8080/rent", {
-                method: "POST",
+                method: "PUT",
                 credentials: "include",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`, // A JWT-t odaadjuk a headernek
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ title })
             });
 
-            if (res.status === 404) {
+            if (res.status === 400) {
+                setError("A könyvet már kikölcsönözték.");
+            } else if (res.status === 404) {
                 setError("A megadott könyv nem található.");
-            } else if (res.status === 400) {
-                setError("A könyv már kölcsönözve van.");
+            } else if (res.status === 401) {
+                setError("Nem érvényes vagy lejárt a token.");
+                localStorage.removeItem("token"); // Ha lejárt vagy érvénytelen, töröljük a tokent
+                navigate("/login"); // Iranyítás a login oldalra
             } else if (res.ok) {
                 const data = await res.json();
-                setResponse(`Sikeresen kölcsönözted: "${data.title}"`);
-                setBooks(books.filter((book) => book.title !== selectedBook)); // Eltávolítjuk a listából
-                setSelectedBook(""); // Reseteljük a kiválasztott könyvet
+                setResponse(`You have successfully checked out the book "${data.title}"`);
+                setRegisteredBooks((prevBooks) =>
+                    prevBooks.map((book) =>
+                        book.title === data.title ? { ...book, available: false } : book
+                    ));
             } else {
                 setError("Ismeretlen hiba történt.");
             }
         } catch (err) {
             setError("Hálózati hiba történt.");
+            localStorage.removeItem("token");
         }
     };
 
+    // Könyvek betöltése
     useEffect(() => {
-
-        // @ts-ignore
         const fetchRegisteredBooks = async () => {
             const token = localStorage.getItem('token');
 
@@ -87,18 +93,17 @@ const Rent = () => {
                 setRegisteredBooks(books);
             } catch (err: any) {
                 console.error("Error:", err.message);
-                setError("Failed to load registered users. Please try again later.");
+                setError("Failed to load registered books. Please try again later.");
             }
         };
 
         fetchRegisteredBooks();
     }, []);
 
-
-
     return (
         <div className="bg-[#D6EFD8] pt-16 pb-2">
             <Navbar />
+            {/* Könyv kölcsönzése */}
             <div className="flex justify-center items-center p-5">
                 <div className="max-w-96 min-w-96 text-center text-black bg-[#80AF81] p-6 rounded-xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)]">
                     <h1 className="mb-5 text-2xl font-bold">Borrow a book</h1>
@@ -135,36 +140,6 @@ const Rent = () => {
                     {error && <p className=" mt-4 font-bold">{error}</p>}
                 </div>
             </div>
-
-            {registeredBooks.length > 0 ? (
-                <div className="max-w-7xl mx-auto mt-5 overflow-x-auto bg-[#80AF81] border-gray-700 rounded-xl shadow-[0px_0px_30px_rgba(0,0,0,0.3)]">
-                    <table className="min-w-full table-auto text-white">
-                        <thead>
-                        <tr>
-                            <th className="py-3 px-6">Title</th>
-                            <th className="py-3 px-6">Author</th>
-                            <th className="py-3 px-6">Genre</th>
-                            <th className="py-3 px-6">ISBN</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {registeredBooks.map((book, index) => (
-                            <tr key={index} className="border-b">
-                                <td className="py-3 px-6">{book.title}</td>
-                                <td className="py-3 px-6">{book.author}</td>
-                                <td className="py-3 px-6">{book.genre}</td>
-                                <td className="py-3 px-6">{book.isbn}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            ) : (
-                <p className="text-gray-500 text-center mt-5">
-                    No registered books found.
-                </p>
-            )}
-
         </div>
     );
 };

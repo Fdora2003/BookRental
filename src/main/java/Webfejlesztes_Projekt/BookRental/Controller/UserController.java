@@ -58,7 +58,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping("/{id}")
+    /*@PostMapping("/{id}")
     public ResponseEntity<String> createUser(@RequestBody UserEntity user) {
         if (user.getUsername() == null || user.getUsername().isEmpty() ||
                 user.getPassword() == null || user.getPassword().isEmpty() ||
@@ -74,7 +74,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to add user. Please try again later.");
         }
-    }
+    }*/
     @PutMapping("/users/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserEntity updateUser) {
         return userRepository.findById(id).map(book -> {

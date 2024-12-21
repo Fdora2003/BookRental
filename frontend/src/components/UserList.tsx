@@ -61,7 +61,7 @@ const UserList: React.FC = () => {
         setUserFormData({ ...userFormData, [name]: value });
     };
 
-    // Handle adding a new user
+    /*// Handle adding a new user
     // @ts-ignore
     const handleAddUser = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -99,7 +99,7 @@ const UserList: React.FC = () => {
             console.error(error);
             setUserMessage("Failed to add user. Please try again later.");
         }
-    };
+    };*/
 
     // Handle edit mode
     const handleEditClick = (user: User) => {
@@ -197,8 +197,7 @@ const UserList: React.FC = () => {
         <div className="p-6 bg-[#d6efd8] min-h-screen">
             <Navbar />
             {userMessage && <p className="mt-4 text-center text-[#000] font-semibold">{userMessage}</p>}
-
-            <form onSubmit={handleAddUser} className="space-y-4">
+            {/*<form onSubmit={handleAddUser} className="space-y-4">
                 <input
                     type="text"
                     name="username"
@@ -233,8 +232,7 @@ const UserList: React.FC = () => {
                     <option value="ADMIN">Admin</option>
                 </select>
                 <button type="submit" className="bg-green-500 text-white p-2 rounded w-full">Add User</button>
-            </form>
-
+            </form>*/}
             <table className="table-auto w-full mt-6">
                 <thead>
                 <tr>

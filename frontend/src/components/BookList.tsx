@@ -224,18 +224,18 @@ const BookList: React.FC = () => {
                 />
                 <input
                     type="text"
-                    name="isbn"
-                    value={bookFormData.isbn}
-                    onChange={handleBookChange}
-                    placeholder="ISBN"
-                    className="p-2 border rounded w-full"
-                />
-                <input
-                    type="text"
                     name="genre"
                     value={bookFormData.genre}
                     onChange={handleBookChange}
                     placeholder="Genre"
+                    className="p-2 border rounded w-full"
+                />
+                <input
+                    type="text"
+                    name="isbn"
+                    value={bookFormData.isbn}
+                    onChange={handleBookChange}
+                    placeholder="ISBN"
                     className="p-2 border rounded w-full"
                 />
                 <select
@@ -255,9 +255,9 @@ const BookList: React.FC = () => {
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
-                    <th>ISBN</th>
-                    <th>Available</th>
                     <th>Genre</th>
+                    <th>Available</th>
+                    <th>ISBN</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -285,8 +285,8 @@ const BookList: React.FC = () => {
                                 <td>
                                     <input
                                         type="text"
-                                        value={editedBook?.isbn || ""}
-                                        onChange={(e) => handleInputChange(e, "isbn")}
+                                        value={editedBook?.genre || ""}
+                                        onChange={(e) => handleInputChange(e, "genre")}
                                         className="p-1 border rounded"
                                     />
                                 </td>
@@ -303,8 +303,8 @@ const BookList: React.FC = () => {
                                 <td>
                                     <input
                                         type="text"
-                                        value={editedBook?.genre || ""}
-                                        onChange={(e) => handleInputChange(e, "genre")}
+                                        value={editedBook?.isbn || ""}
+                                        onChange={(e) => handleInputChange(e, "isbn")}
                                         className="p-1 border rounded"
                                     />
                                 </td>
@@ -317,9 +317,9 @@ const BookList: React.FC = () => {
                             <>
                                 <td>{book.title}</td>
                                 <td>{book.author}</td>
-                                <td>{book.isbn}</td>
-                                <td>{book.available ? "Available" : "Not Available"}</td>
                                 <td>{book.genre}</td>
+                                <td>{book.available ? "Available" : "Not Available"}</td>
+                                <td>{book.isbn}</td>
                                 <td>
                                     <button onClick={() => handleEditClick(book)} className="text-green-500">Edit</button>
                                     <button onClick={() => handleDeleteBook(book.id)} className="text-red-500">Delete</button>

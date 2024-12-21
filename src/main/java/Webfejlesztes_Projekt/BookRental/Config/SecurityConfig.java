@@ -40,7 +40,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF védelem tiltása
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2/**", "/register", "/login", "/books/**").permitAll() // Engedélyezi a H2 konzolt
+                        .requestMatchers("/h2/**", "/register", "/login", "/books/**", "/users/**").permitAll() // Engedélyezi a H2 konzolt
                         .anyRequest().authenticated() // Minden más autentikációt igényel
                 )
                 .httpBasic(Customizer.withDefaults()) // HTTP Basic Auth

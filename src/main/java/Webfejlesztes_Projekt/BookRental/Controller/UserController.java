@@ -58,7 +58,23 @@ public class UserController {
         return userRepository.findAll();
     }
 
-
+    @PostMapping("/{id}")
+    public ResponseEntity<String> createUser(@RequestBody UserEntity user) {
+        if (user.getUsername() == null || user.getUsername().isEmpty() ||
+                user.getPassword() == null || user.getPassword().isEmpty() ||
+                user.getEmail() == null || user.getEmail().isEmpty() ||
+                user.getRole() == null || user.getRole().isEmpty()) {
+            return ResponseEntity.badRequest().body("All fields are required and cannot be empty.");
+        }
+        try {
+            userRepository.save(user);
+            return ResponseEntity.ok("User added successfully!");
+        } catch (Exception e) {
+            e.printStackTrace(); // Nyomtasd ki a teljes kivételt
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add user. Please try again later.");
+        }
+    }
     @PutMapping("/users/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserEntity updateUser) {
         return userRepository.findById(id).map(book -> {

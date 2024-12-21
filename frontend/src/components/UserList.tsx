@@ -6,6 +6,7 @@ interface User {
     username: string;
     email: string;
     role: string; // USER or ADMIN
+    password?: string; // Optional field for new/updated users
 }
 
 const UserList: React.FC = () => {
@@ -14,6 +15,7 @@ const UserList: React.FC = () => {
         username: "",
         email: "",
         role: "USER",
+        password: "", // New field for password
     });
     const [userMessage, setUserMessage] = useState<string | null>(null);
     const [editUserId, setEditUserId] = useState<number | null>(null);
@@ -64,7 +66,7 @@ const UserList: React.FC = () => {
     const handleAddUser = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!userFormData.username || !userFormData.email || !userFormData.role) {
+        if (!userFormData.username || !userFormData.email || !userFormData.role || !userFormData.password) {
             setUserMessage("All fields are required.");
             return;
         }
@@ -87,7 +89,7 @@ const UserList: React.FC = () => {
 
             if (response.ok) {
                 setUserMessage("User added successfully!");
-                setUserFormData({ username: "", email: "", role: "USER" });
+                setUserFormData({ username: "", email: "", role: "USER", password: "" });
                 fetchUsers(); // Refresh the list
             } else {
                 const errorMessage = await response.text();
@@ -102,7 +104,7 @@ const UserList: React.FC = () => {
     // Handle edit mode
     const handleEditClick = (user: User) => {
         setEditUserId(user.id);
-        setEditedUser({ ...user });
+        setEditedUser({ ...user, password: "" }); // Optional password edit
     };
 
     // Handle editing
@@ -158,7 +160,6 @@ const UserList: React.FC = () => {
             }
         }
     };
-
     // Handle deleting a user
     // @ts-ignore
     const handleDeleteUser = async (userId: number) => {
@@ -211,6 +212,14 @@ const UserList: React.FC = () => {
                     value={userFormData.email}
                     onChange={handleUserChange}
                     placeholder="Email"
+                    className="p-2 border rounded w-full"
+                />
+                <input
+                    type="password"
+                    name="password"
+                    value={userFormData.password}
+                    onChange={handleUserChange}
+                    placeholder="Password"
                     className="p-2 border rounded w-full"
                 />
                 <select

@@ -18,7 +18,7 @@ public class UserEntity {
     private String email;
 
     @Column(name = "role")
-    private String role;
+    private String role="USER";
 
     public UserEntity() {
     }

@@ -2,35 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
-    const [isAdmin, setIsAdmin] = useState(false);
-    useEffect(() => {
-        const fetchUserRole = async () => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                return;
-            }
-            try {
-                const response = await fetch('http://localhost:8080/books/getrole', {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (response.ok) {
-                    const role = await response.text(); // Backend sima szövegként küldi vissza
-                    setIsAdmin(role === 'admin'); // Ellenőrzés admin szerepre
-                } else {
-                    console.error('Failed to fetch role');
-                }
-            } catch (error) {
-                console.error('Error fetching role:', error);
-            }
-        };
-        fetchUserRole();
-    }, []);
-    // Get the user's role from localStorage (or a JWT token if applicable)
-    const userRole = localStorage.getItem('role'); // or extract from the JWT token
 
     return (
         <nav

@@ -54,13 +54,13 @@ const UserList: React.FC = () => {
     const handleRoleChange = async (userId: number, newRoleId: number) => {
         const token = localStorage.getItem("token");
         try {
-            const response = await fetch(`http://localhost:8080/${userId}/role`, {
+            const response = await fetch(`http://localhost:8080/users/${userId}/role`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ roleId: newRoleId }),
+                body: JSON.stringify({ roleId: newRoleId }),  // Itt a roleId érték megy
             });
 
             if (response.ok) {
@@ -72,7 +72,7 @@ const UserList: React.FC = () => {
         } catch (error) {
             console.error("Error updating role:", error);
         }
-    };
+    };;
 
     useEffect(() => {
         checkIfAdmin();
@@ -80,13 +80,11 @@ const UserList: React.FC = () => {
     }, []);
 
 
-
     return (
         <div className="p-6 bg-[#d6efd8] min-h-screen">
             <Navbar/>
             <h1 className="text-center text-2xl font-semibold mb-6">Registered Users</h1>
 
-            {/* Felhasználók listája */}
             <div className="max-w-7xl mx-auto mt-6 overflow-x-auto bg-white p-6 rounded-lg shadow-lg">
                 {registeredUsers.length > 0 ? (
                     <table className="table-auto w-full mt-6 border-collapse">
@@ -107,15 +105,14 @@ const UserList: React.FC = () => {
                                 <td className="p-2">
                                     <select
                                         value={user.role.id}
-                                        onChange={(e) =>
-                                            handleRoleChange(user.id, Number(e.target.value))
-                                        }
+                                        onChange={(e) => handleRoleChange(user.id, Number(e.target.value))}
                                         className="bg-[#2A3B2D] hover:bg-[#202B21] text-white p-2 rounded w-full text-center text-base"
                                     >
-                                        <option value="2">Admin</option>
                                         <option value="1">User</option>
+                                        <option value="2">Admin</option>
                                     </select>
                                 </td>
+
                             </tr>
                         ))}
                         </tbody>

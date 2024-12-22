@@ -59,7 +59,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/{id}/role")
+    @PutMapping("/users/{id}/role")
     public ResponseEntity<String> updateUserRole(@PathVariable Long id, @RequestBody Map<String, Long> request) {
         Long newRoleId = request.get("roleId");
         authenticationService.updateUserRole(id, newRoleId);

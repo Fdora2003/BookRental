@@ -58,29 +58,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PutMapping("/users/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserEntity updateUser) {
-        return userRepository.findById(id).map(book -> {
-            book.setUsername(updateUser.getUsername());
-            book.setPassword(updateUser.getPassword());
-            book.setEmail(updateUser.getEmail());
-            book.setRole(updateUser.getRole());
-            userRepository.save(book);
-            return ResponseEntity.ok("User updated successfully!");
-        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found."));
-    }
 
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
-
-        return userRepository.findById(id).map(book -> {
-            userRepository.delete(book);
-            return ResponseEntity.ok("User deleted successfully!");
-        }).orElseGet(() -> {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("User not found.");
-        });
-    }
     @PutMapping("/{id}/role")
     public ResponseEntity<String> updateUserRole(@PathVariable Long id, @RequestBody Map<String, Long> request) {
         Long newRoleId = request.get("roleId");

@@ -22,6 +22,7 @@ const App = () => {
                 <Route path="/rent" element={<Rent />} />
                 <Route path="/users" element={<UserList />}/>
                 <Route path="/return" element={<Return />}/>
+                <Route path="/admin" element={<BookList />}/>
             </Routes>
         </Router>
     );
@@ -37,7 +38,7 @@ const NavBar = () => {
         <nav>
             <ul>
                 <>
-                    <li><button onClick={() => handleNavigation('/books')}>Books</button></li>
+                    <li><button onClick={() => handleNavigation('/admin')}>Books</button></li>
                     <li><button onClick={() => handleNavigation('/users')}>Books</button></li>
                     <li><button onClick={() => handleNavigation('/rent')}>Rent</button></li>
                     <li><button onClick={() => handleNavigation('/return')}>Books</button></li>

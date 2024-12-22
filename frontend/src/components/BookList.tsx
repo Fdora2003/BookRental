@@ -10,6 +10,7 @@ interface Book {
 }
 
 const BookList: React.FC = () => {
+
     const [books, setBooks] = useState<Book[]>([]);
     const [bookFormData, setBookFormData] = useState({
         title: "",
@@ -31,7 +32,7 @@ const BookList: React.FC = () => {
                 return ("/login");
             }
 
-            const response = await fetch("http://localhost:8080/books", {
+            const response = await fetch("http://localhost:8080/admin/all", {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -77,7 +78,7 @@ const BookList: React.FC = () => {
                 return;
             }
 
-            const response = await fetch("http://localhost:8080/books", {
+            const response = await fetch("http://localhost:8080/admin", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -138,7 +139,7 @@ const BookList: React.FC = () => {
                     return;
                 }
 
-                const response = await fetch(`http://localhost:8080/books/${editedBook.id}`, {
+                const response = await fetch(`http://localhost:8080/admin/${editedBook.id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -173,7 +174,7 @@ const BookList: React.FC = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/books/${bookId}`, {
+            const response = await fetch(`http://localhost:8080/admin/${bookId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,

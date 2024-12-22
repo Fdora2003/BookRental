@@ -8,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "USERS")
-public class UserEntity implements UserDetails {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -50,10 +50,6 @@ public class UserEntity implements UserDetails {
         this.username = username;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(role);
-    }
 
     public String getPassword() {
         return password;

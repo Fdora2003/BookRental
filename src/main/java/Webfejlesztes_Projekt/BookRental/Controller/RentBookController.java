@@ -6,6 +6,7 @@ import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import Webfejlesztes_Projekt.BookRental.Repository.BookRepository;
 import Webfejlesztes_Projekt.BookRental.Repository.RentRepository;
 import Webfejlesztes_Projekt.BookRental.Repository.UserRepository;
+import Webfejlesztes_Projekt.BookRental.Service.BookService;
 import Webfejlesztes_Projekt.BookRental.Service.Dto.RentDto;
 import Webfejlesztes_Projekt.BookRental.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class RentBookController {
     private RentRepository rentalRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    BookService bookService;
 
     @GetMapping()
     public List<BookEntity> getAvailableBooks() {

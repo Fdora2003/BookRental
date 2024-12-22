@@ -56,6 +56,7 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable()) // CSRF letiltása
                 .authorizeHttpRequests(request -> request.requestMatchers("/login","/register","/h2/**").permitAll()
+                        .requestMatchers("/users/**","/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(customAuthenticationProvider())

@@ -4,10 +4,18 @@ import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import Webfejlesztes_Projekt.BookRental.Entity.UserPrincipal;
 import Webfejlesztes_Projekt.BookRental.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+
+
+
 @Service
 public class MyUserDetailsService implements UserDetailsService {
     @Autowired
@@ -18,7 +26,6 @@ public class MyUserDetailsService implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException("User not found");
         }
-
         return new UserPrincipal(user);
     }
 

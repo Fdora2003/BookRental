@@ -12,7 +12,7 @@ interface RegisteredUser {
 
 const UserList: React.FC = () => {
     const [registeredUsers, setRegisteredUsers] = useState<RegisteredUser[]>([]);
-    // const [message, setMessage] = useState<string | null>(null);
+    const [isAdmin, setIsAdmin] = useState<boolean>(false); // Állapot a felhasználó szerepéhez
 
     // Fetch registered users
     const fetchRegisteredUsers = async () => {
@@ -36,7 +36,17 @@ const UserList: React.FC = () => {
         } catch (err: any) {
             console.error("Error:", err.message);
             console.error("Failed to load registered users. Please try again later.");
-            // setMessage("Failed to load registered users. Please try again later.");
+        }
+    };
+    // Ellenőrizni kell, hogy a felhasználó admin
+    const checkIfAdmin = () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // A token tartalmazhatja a felhasználó szerepét, ha a backend ezt visszaadja
+            const userRole = JSON.parse(localStorage.getItem("userRole") || "{}");
+            if (userRole?.id === 1) { // Ha admin szerepe van
+                setIsAdmin(true);
+            }
         }
     };
 
@@ -65,8 +75,11 @@ const UserList: React.FC = () => {
     };
 
     useEffect(() => {
+        checkIfAdmin();
         fetchRegisteredUsers();
     }, []);
+
+
 
     return (
         <div className="p-6 bg-[#d6efd8] min-h-screen">

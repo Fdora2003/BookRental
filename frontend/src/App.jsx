@@ -8,6 +8,7 @@ import Register from './components/Register';
 import BookList from "./components/BookList";
 import Rent from "./components/Rent";
 import UserList from "./components/UserList";
+import Return from "./components/Return";
 
 const isAdmin = true;
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
                 <Route path="/books" element={ <BookList /> } />
                 <Route path="/rent" element={<Rent />} />
                 <Route path="/users" element={<UserList />}/>
+                <Route path="/return" element={<Return />}/>
             </Routes>
         </Router>
     );
@@ -38,6 +40,8 @@ const NavBar = () => {
                     <li><button onClick={() => handleNavigation('/books')}>Books</button></li>
                     <li><button onClick={() => handleNavigation('/users')}>Books</button></li>
                     <li><button onClick={() => handleNavigation('/rent')}>Rent</button></li>
+                    <li><button onClick={() => handleNavigation('/return')}>Books</button></li>
+
                 </>
             </ul>
         </nav>

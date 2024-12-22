@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class UserPrincipal implements UserDetails {
     private UserEntity user;
@@ -15,8 +16,11 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
-    }
+        if (user.getRole() == null) {
+            throw new IllegalStateException("Role cannot be null");
+        }
+        return List.of(user.getRole());
+        }
 
     @Override
     public String getPassword() {

@@ -11,7 +11,6 @@ interface Book {
 
 const BookList: React.FC = () => {
     const [books, setBooks] = useState<Book[]>([]);
-    const [userRole, setUserRole] = useState<string | null>(null);
     const [bookFormData, setBookFormData] = useState({
         title: "",
         author: "",
@@ -100,9 +99,6 @@ const BookList: React.FC = () => {
             console.error(error);
             setBookMessage("Failed to add book. Please try again later.");
         }
-        if (userRole !== 'admin') {
-            return <p>Access denied. Admin role required to add books.</p>;
-        }
     };
 
     // Handle edit mode
@@ -170,9 +166,6 @@ const BookList: React.FC = () => {
     };
 
     const handleDeleteBook = async (bookId: number) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this book?");
-        if (!confirmDelete) return;
-
         try {
             const token = localStorage.getItem("token");
             if (!token) {

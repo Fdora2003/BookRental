@@ -4,6 +4,7 @@ import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface UserService {
@@ -17,4 +18,7 @@ public interface UserService {
     UserEntity updateUser(Long id, UserEntity user);
 
     boolean deleteUser(Long id);
+    UserEntity register(UserEntity user);
+
+
 }

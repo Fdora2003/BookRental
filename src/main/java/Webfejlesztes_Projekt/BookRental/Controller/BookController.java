@@ -5,7 +5,7 @@ import Webfejlesztes_Projekt.BookRental.Entity.UserEntity;
 import Webfejlesztes_Projekt.BookRental.Repository.BookRepository;
 import Webfejlesztes_Projekt.BookRental.Repository.UserRepository;
 import Webfejlesztes_Projekt.BookRental.Service.BookService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,10 @@ public class BookController {
     BookRepository bookRepository;
     @Autowired
     UserRepository userRepository;
+    @GetMapping()
+    public List<BookEntity> getAllBooks() {
+        return bookService.getAllBooks();
+    }
 
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
@@ -42,17 +46,8 @@ public class BookController {
                     .body("Failed to add book.");
         }
     }
-    @GetMapping("/getrole")
-    public ResponseEntity<String> getUserRole(Authentication authentication) {
-        // Az aktuális bejelentkezett felhasználó role-ját lekérjük
-        UserEntity user = userRepository.findByUsername(authentication.name());
-        if (user != null && user.getRole() != null) {
-            return ResponseEntity.ok(user.getRole()); // Role visszaküldése
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Role not found");
-    }
+
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody BookEntity updateBook) {
         return bookRepository.findById(id).map(book -> {
             book.setTitle(updateBook.getTitle());
@@ -61,25 +56,20 @@ public class BookController {
             book.setAvailable(updateBook.isAvailable());
             book.setIsbn(updateBook.getIsbn());
             bookRepository.save(book);
-            return ResponseEntity.ok("User updated successfully!");
-        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found."));
+            return ResponseEntity.ok("Book updated successfully!");
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found."));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
 
         return bookRepository.findById(id).map(book -> {
             bookRepository.delete(book);
-            return ResponseEntity.ok("User deleted successfully!");
+            return ResponseEntity.ok("Book deleted successfully!");
         }).orElseGet(() -> {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("User not found.");
+                    .body("Book not found.");
         });
     }
 
-    @GetMapping()
-    public List<BookEntity> getAllBooks() {
-        return bookService.getAllBooks();
-    }
 }

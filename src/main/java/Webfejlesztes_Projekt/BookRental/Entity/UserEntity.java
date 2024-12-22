@@ -1,41 +1,36 @@
 package Webfejlesztes_Projekt.BookRental.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "USERS")
-public class UserEntity {
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "username")
+    @Column(name = "username",unique = true)
     private String username;
     @Column(name = "password")
     private String password;
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
-    @Column(name = "role")
-    private String role="USER";
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    private RoleEntity role;
 
     public UserEntity() {
     }
 
-    public UserEntity(long id, String username, String password, String email, String role) {
+    public UserEntity(long id, String username, String password, String email, RoleEntity role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.role = role;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
         this.role = role;
     }
 
@@ -55,6 +50,11 @@ public class UserEntity {
         this.username = username;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(role);
+    }
+
     public String getPassword() {
         return password;
     }
@@ -69,6 +69,13 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
     }
 
     @Override
@@ -91,6 +98,7 @@ public class UserEntity {
         sb.append(", username='").append(username).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append(", email='").append(email).append('\'');
+        sb.append(", role=").append(role);
         sb.append('}');
         return sb.toString();
     }

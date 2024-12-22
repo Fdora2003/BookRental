@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -51,7 +52,7 @@ public class SecurityConfig {
                         config.setAllowedHeaders(Arrays.asList("*"));
                         return config;
                     }
-                })) // Egyedi CORS konfiguráció
+                }))
                 .csrf(csrf -> csrf.disable()) // CSRF letiltása
                 .authorizeHttpRequests(request -> request.requestMatchers("/login","/register","/h2/**").permitAll()
                         .anyRequest().authenticated()) // Minden más kérés bejelentkezést igényel

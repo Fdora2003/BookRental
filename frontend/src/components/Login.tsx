@@ -27,7 +27,7 @@ const Login: React.FC = () => {
             }
             const token = await response.text();
             localStorage.setItem("token", token);
-            navigate("/books");
+            navigate("/rent");
         } catch (err: any) {
             console.error("Login error:", err.message);
             setError("Invalid username or password. Please try again.");

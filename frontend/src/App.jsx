@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import BookList from "./components/BookList";
+import Rent from "./components/Rent";
 
 const isAdmin = true;
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/books" element={ <BookList /> } />
+                <Route path="/rent" element={<Rent />} />
             </Routes>
         </Router>
     );
@@ -30,9 +32,10 @@ const NavBar = () => {
     return (
         <nav>
             <ul>
-                    <>
-                        <li><button onClick={() => handleNavigation('/books')}>Books</button></li>
-                    </>
+                <>
+                    <li><button onClick={() => handleNavigation('/books')}>Books</button></li>
+                    <li><button onClick={() => handleNavigation('/rent')}>Rent</button></li>
+                </>
             </ul>
         </nav>
     );

@@ -47,9 +47,10 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
-                        config.setAllowedOrigins(Arrays.asList("*"));
-                        config.setAllowedMethods(Arrays.asList("*"));
+                        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+                        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
                         config.setAllowedHeaders(Arrays.asList("*"));
+                        config.setAllowCredentials(true);
                         return config;
                     }
                 }))

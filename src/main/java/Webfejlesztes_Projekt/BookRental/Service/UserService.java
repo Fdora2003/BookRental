@@ -21,4 +21,5 @@ public interface UserService {
     UserEntity register(UserEntity user);
 
 
+    Long findUserIdByUsername(String username);
 }

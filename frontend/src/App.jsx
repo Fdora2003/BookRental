@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import BookList from "./components/BookList";
 import Rent from "./components/Rent";
+import UserList from "./components/UserList";
 
 const isAdmin = true;
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/books" element={ <BookList /> } />
                 <Route path="/rent" element={<Rent />} />
+                <Route path="/users" element={<UserList />}/>
             </Routes>
         </Router>
     );
@@ -34,6 +36,7 @@ const NavBar = () => {
             <ul>
                 <>
                     <li><button onClick={() => handleNavigation('/books')}>Books</button></li>
+                    <li><button onClick={() => handleNavigation('/users')}>Books</button></li>
                     <li><button onClick={() => handleNavigation('/rent')}>Rent</button></li>
                 </>
             </ul>

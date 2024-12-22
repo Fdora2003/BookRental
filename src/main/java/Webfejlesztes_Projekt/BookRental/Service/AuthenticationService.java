@@ -29,7 +29,7 @@ public class AuthenticationService {
     private BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
     public UserEntity register(UserEntity user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        RoleEntity role = roleRepository.findById(1L)
+        RoleEntity role = roleRepository.findById(1)
                 .orElseThrow(() -> new IllegalArgumentException("Default role not found"));
         user.setRole(role);
         return userRepository.save(user);

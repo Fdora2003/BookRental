@@ -1010,3 +1010,9 @@ DROP TABLE IF EXISTS ROLE [90107-232]
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-12-22 10:14:31.211296+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP TABLE [*]IF EXIST RENT"; expected "identifier"; SQL statement:
+DROP TABLE IF EXIST RENT [42001-232]
+2024-12-22 10:15:41.829897+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found; SQL statement:
+insert into users (email,password,role_id,username,id) values (?,?,?,?,default) [42102-232]

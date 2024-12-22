@@ -27,6 +27,24 @@ const Navbar: React.FC = () => {
                 }}
             >
                 <Link
+                    to="/users"
+                    style={{
+                        color: '#fff',
+                        textDecoration: 'none',
+                        padding: '5px 10px',
+                        borderRadius: '4px',
+                        transition: 'background-color 0.3s',
+                    }}
+                    onMouseEnter={(e) =>
+                        (e.currentTarget.style.backgroundColor = '#007BFF')
+                    }
+                    onMouseLeave={(e) =>
+                        (e.currentTarget.style.backgroundColor = 'transparent')
+                    }
+                >
+                    UserManager
+                </Link>
+                <Link
                     to="/books"
                     style={{
                         color: '#fff',
@@ -42,7 +60,7 @@ const Navbar: React.FC = () => {
                         (e.currentTarget.style.backgroundColor = 'transparent')
                     }
                 >
-                    Book Maneger
+                    BookManager
                 </Link>
                 <Link
                     to="/rent"

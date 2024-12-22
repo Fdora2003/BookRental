@@ -3,8 +3,8 @@ ADMIN:
 -könyvek módosítása✅
 -könyvek törlése✅
 
--userek jogainak megváltoztatása✅
--userek törlése✅
+-userek jogainak megváltoztatása
+-userek törlése
 
 USER:
 (ezeket az admin is tudja)
